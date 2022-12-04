@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="22.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.cronometro.cronometro.itemCronometroController">
+   <children>
+      <Label fx:id="vuelta" alignment="TOP_CENTER" contentDisplay="CENTER" prefWidth="100.0" textAlignment="CENTER">
+         <font>
+            <Font name="Dosis SemiBold" size="16.0" />
+         </font>
+         <HBox.margin>
+            <Insets left="20.0" right="40.0" />
+         </HBox.margin>
+      </Label>
+      <Label fx:id="horas" alignment="TOP_CENTER" contentDisplay="CENTER" prefWidth="70.0" text="0" textAlignment="CENTER">
+         <font>
+            <Font name="Dosis SemiBold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="minutos" alignment="TOP_CENTER" contentDisplay="CENTER" prefWidth="70.0" text="0" textAlignment="CENTER">
+         <font>
+            <Font name="Dosis SemiBold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="segundos" alignment="TOP_CENTER" contentDisplay="CENTER" prefWidth="70.0" text="0" textAlignment="CENTER">
+         <font>
+            <Font name="Dosis SemiBold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="centesimasSegundos" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="110.0" text="000" textAlignment="CENTER">
+         <font>
+            <Font name="Dosis SemiBold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</HBox>
