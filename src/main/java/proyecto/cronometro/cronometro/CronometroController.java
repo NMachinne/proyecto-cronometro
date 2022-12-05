@@ -6,6 +6,7 @@
 package proyecto.cronometro.cronometro;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,7 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class CronometroController implements Runnable, Initializable{
+public class CronometroController implements Runnable, Initializable {
 
 	@FXML
 	private ScrollPane ScrollPane;
@@ -49,7 +50,6 @@ public class CronometroController implements Runnable, Initializable{
 	private cronometroDAO crDao;
 	private List<Cronometro> listvuelta = new ArrayList<Cronometro>();
 	private ObservableList<Cronometro> listVueltCrono = FXCollections.observableArrayList(listvuelta);
-	private boolean reset = false;
 	private boolean pause;
 	private boolean suspend;
 	Thread ini = new Thread(this);
@@ -84,7 +84,6 @@ public class CronometroController implements Runnable, Initializable{
 	public void reset() {
 		cr = null;
 		isRunning(false);
-		reset = false;
 		ini.interrupt();
 		txtHora.setText("00");
 		txtMinutos.setText("00");
@@ -125,43 +124,46 @@ public class CronometroController implements Runnable, Initializable{
 		notify();
 	}
 
+	/**
+	 * devuelve un booleano para comprobar si esta corriendo
+	 * 
+	 * @param iscorriendo true o false
+	 * @return
+	 */
 	public boolean isRunning(boolean iscorriendo) {
 		return iscorriendo;
 	}
-	
-    @FXML
-    void addvueltacronometro() {
-    	  thora = Integer.parseInt(txtHora.getText());
-          tmin = Integer.parseInt(txtMinutos.getText());
-          tsec = Integer.parseInt(txtSegundos.getText());
-          tmsec = Integer.parseInt(txtMilisegundos.getText());
-          ListaVueltas = new Cronometro(thora,tmin,tsec,tmsec);
-          crDao = new cronometroDAO(thora, tmin, tsec, tmsec);
-          listvuelta.add(ListaVueltas);
-          crDao.insertTime(ListaVueltas);
-          update();
-  		Cronometro caux = new Cronometro();
-  		for (int i = 0; i < listVueltCrono.size(); i++) {
-  			FXMLLoader fxmloader = new FXMLLoader();
-  			fxmloader.setLocation(getClass().getResource("itemCronometro.fxml"));
-  			try {
-  				HBox apane = fxmloader.load();
-  				itemCronometroController icc = fxmloader.getController();
-  				caux = ((Cronometro) listVueltCrono.toArray()[i]);
-  				icc.setData(caux);
-  				vueltasLayout.getChildren().add(apane);
-  			} catch (Exception e) {
-  				e.printStackTrace();
-  			}
-  		}    	
-    }
-	public void update() {
+
+	@FXML
+	void addvueltacronometro() {
+		thora = Integer.parseInt(txtHora.getText());
+		tmin = Integer.parseInt(txtMinutos.getText());
+		tsec = Integer.parseInt(txtSegundos.getText());
+		tmsec = Integer.parseInt(txtMilisegundos.getText());
+		ListaVueltas = new Cronometro(thora, tmin, tsec, tmsec);
+		crDao = new cronometroDAO(thora, tmin, tsec, tmsec);
+		listvuelta.add(ListaVueltas);
+		crDao.insertTime(ListaVueltas);
 		listVueltCrono.addAll(listvuelta);
-		
+		Cronometro caux = new Cronometro();
+		for (int i = 0; i < listVueltCrono.size(); i++) {
+			FXMLLoader fxmloader = new FXMLLoader();
+
+			fxmloader.setLocation(getClass().getResource("itemCronometro.fxml"));
+			try {
+				HBox apane = fxmloader.load();
+				itemCronometroController icc = fxmloader.getController();
+				caux = ((Cronometro) listVueltCrono.toArray()[i]);
+				icc.setData(caux);
+				vueltasLayout.getChildren().add(apane);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
+
 	@Override
 	public void run() {
-
 		try {
 			while (isRunning(true)) {
 				Thread.sleep(4);
@@ -235,9 +237,10 @@ public class CronometroController implements Runnable, Initializable{
 
 		}
 	}
-	
+
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {	
+	public void initialize(URL location, ResourceBundle resources) {
+		listVueltCrono.addAll(listvuelta);
 	}
 
 }

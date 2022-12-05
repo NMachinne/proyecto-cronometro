@@ -76,4 +76,5 @@ public class Cronometro implements Icronometro{
 				+ miliSegundos + ", corriendo=" + corriendo + "]";
 	}
 	
+	
 }
